@@ -1,0 +1,162 @@
+﻿@model List<AutoServicee.Models.Customer>
+
+@{
+    ViewBag.Title = "Auto Service Iliri";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Auto Service Iliri</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #272525;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem;
+        }
+
+        h2 {
+            color: #dc3545;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .table {
+            background-color: #222;
+            border: 1px solid #dc3545;
+        }
+
+            .table th {
+                background-color: #dc3545;
+                color: #fff;
+                border: 1px solid #dc3545;
+                text-align: center;
+            }
+
+            .table td {
+                background-color: #333;
+                color: #fff;
+                border: 1px solid #444;
+                text-align: center;
+            }
+
+        .table-hover tbody tr:hover td {
+            background-color: #444;
+        }
+
+        .action-btns .btn {
+            margin-right: 5px;
+        }
+
+        .add-btn {
+            margin-bottom: 20px;
+        }
+
+        .filter-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .filter-controls input,
+            .filter-controls select {
+                background-color: #333;
+                color: #fff;
+                border: 1px solid #dc3545;
+            }
+
+        .form-control::placeholder {
+            color: #ccc;
+        }
+
+        .form-select {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2><b>Auto Service Iliri</b></h2>
+
+        <div class="filter-controls">
+            <input type="text" id="searchInput" class="form-control w-100 w-md-75" placeholder="Kërko klientin, veturën, përshkrimin..." />
+            </div>
+            <div class="filter-controls">
+                <select id="sortSelect" class="form-select w-100 w-md-75">
+                    <option value="desc">Më të rejat</option>
+                    <option value="asc">Më të vjetrat</option>
+                </select>
+            </div>
+
+            <div class="text-end add-btn">
+                <a href="@Url.Action("Create", "Customer")" class="btn btn-success">Shto</a>
+            </div>
+
+            <table id="customerTable" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Emri</th>
+                        <th>Lloji i Veturës</th>
+                        <th>Përshkrimi</th>
+                        <th>Pagesa</th>
+                        <th>Veprime</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var customer in Model)
+                    {
+                        <tr data-id="@customer.Id">
+                            <td>@customer.Name</td>
+                            <td>@customer.TypeOfCar</td>
+                            <td>@customer.Description</td>
+                            <td>@customer.Pay</td>
+                            <td class="action-btns">
+                                <a href="@Url.Action("Update", "Customer", new { id = customer.Id })" class="btn btn-danger btn-sm">Ndrysho</a>
+                                <a href="@Url.Action("Delete", "Customer", new { id = customer.Id })" class="btn btn-danger btn-sm">Fshi</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const sortSelect = document.getElementById('sortSelect');
+            const table = document.getElementById('customerTable');
+            const tbody = table.querySelector('tbody');
+            let originalRows = Array.from(tbody.querySelectorAll('tr'));
+
+            function filterRows() {
+                const term = searchInput.value.toLowerCase();
+                originalRows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(term) ? '' : 'none';
+                });
+            }
+
+            function sortRows(order) {
+                originalRows.sort((a, b) => {
+                    const idA = parseInt(a.dataset.id);
+                    const idB = parseInt(b.dataset.id);
+                    return order === 'asc' ? idA - idB : idB - idA;
+                });
+
+                tbody.innerHTML = '';
+                originalRows.forEach(row => tbody.appendChild(row));
+                filterRows(); // re-apply filter after sort
+            }
+
+            searchInput.addEventListener('input', filterRows);
+            sortSelect.addEventListener('change', () => sortRows(sortSelect.value));
+
+            sortRows('desc'); // default sort on load
+        });
+    </script>
+</body>
+</html>

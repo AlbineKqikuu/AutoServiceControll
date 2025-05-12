@@ -1,0 +1,88 @@
+﻿@model AutoServicee.Models.Customer
+
+@{
+    ViewBag.Title = "Auto Service Iliri";
+    Layout = null;
+}
+
+<style>
+    .container {
+        max-width: 600px;
+        margin: 80px auto;
+        padding: 30px;
+        background-color: #fff3f3;
+        border: 1px solid #e60000;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        color: #e60000;
+        margin-bottom: 20px;
+    }
+
+    .info {
+        font-size: 18px;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .btn-danger {
+        background-color: #e60000;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+        .btn-danger:hover {
+            background-color: #cc0000;
+        }
+
+    .btn-secondary {
+        background-color: #555;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: 0.3s ease;
+    }
+
+        .btn-secondary:hover {
+            background-color: #444;
+        }
+</style>
+
+<div class="container">
+    <h2>A jeni të sigurt që doni ta fshini këtë të dhënë?</h2>
+
+
+    <div class="info">
+        <p><strong>Emri:</strong> @Model.Name</p>
+        <p><strong>Lloji i Veturës:</strong> @Model.TypeOfCar</p>
+        <p><strong>Përshkrimi:</strong> @Model.Description</p>
+        <p><strong>Pagesa:</strong> $@Model.Pay</p>
+    </div>
+
+    @using (Html.BeginForm("Delete", "Customer", new { id = Model.Id }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="btn-group">
+            <input type="submit" value="Fshi" class="btn-danger" />
+            <a href="@Url.Action("Index", "Home")" class="btn-secondary">Anulo</a>
+        </div>
+    }
+</div>

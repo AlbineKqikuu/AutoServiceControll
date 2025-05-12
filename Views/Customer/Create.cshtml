@@ -1,0 +1,175 @@
+﻿@model AutoServicee.Models.Customer
+
+@{
+    ViewBag.Title = "Auto Service Iliri";
+    Layout = null;
+}
+
+<!-- Custom Styles for the Form -->
+<style>
+    body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 40px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+    }
+
+    .card-header {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 700;
+        color: #e60000; /* Red Color */
+        margin-bottom: 30px;
+        text-transform: uppercase;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 16px;
+        color: #333;
+        margin-top: 20px; /* Increased margin to add space between label and text field */
+       
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+        background-color: #f9f9f9;
+        color: #333;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #e60000; /* Red border on focus */
+        background-color: #fff;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 16px;
+        background-color: #e60000; /* Red Color */
+        color: white;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-submit:hover {
+        background-color: #cc0000; /* Darker red on hover */
+        transform: scale(1.05);
+    }
+
+    .btn-back {
+        width: 100%;
+        padding: 16px;
+        background-color: #e60000; /* Black Color */
+        color: white;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 25px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+        .btn-back:hover {
+            background-color: #cc0000; /* Slightly lighter black on hover */
+            transform: scale(1.05);
+        }
+
+    .form-group {
+        margin-bottom: 30px; /* Space between form groups */
+    }
+
+        /* Add space between label and input directly */
+        .form-group label {
+            margin-bottom: 12px; /* Add space between label and input */
+        }
+
+        .form-group .form-control {
+            margin-top: 10px; /* Optional: Add some space above input field */
+        }
+
+    /* Remove underline from the Go Back button */
+    .btn-back {
+        text-decoration: none; /* No underline */
+    }
+
+    /* Responsive design adjustments */
+    @@media (max-width: 768px) {
+        .container {
+            padding: 20px;
+        }
+
+        .card-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            font-size: 14px;
+        }
+
+        .btn-submit, .btn-back {
+            font-size: 16px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="card-header">
+        Shto Klientin
+    </div>
+
+    @using (Html.BeginForm("Create", "Customer", FormMethod.Post))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, "Emri", htmlAttributes: new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Shëno Emrin" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.TypeOfCar, "Lloji i Veturës", htmlAttributes: new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.TypeOfCar, new { @class = "form-control", placeholder = "Shëno Veturën" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Description, "Përshkrimi", htmlAttributes: new { @class = "form-label" })
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", placeholder = "Shëno Përshkrimin", rows = 4 })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Pay, "Pagesa", htmlAttributes: new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.Pay, new { @class = "form-control", placeholder = "Shëno Pagesën" })
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn-submit">Shto</button>
+        </div>
+    }
+
+    <!-- Go Back Button -->
+    <div class="form-group">
+        <a href="@Url.Action("Index", "Home")" class="btn-back">Kthehu</a>
+    </div>
+</div>
